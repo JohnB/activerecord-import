@@ -6,6 +6,7 @@ module ActiveRecord::Import
   AdapterPath = "activerecord-import/active_record/adapters"
 
   def self.base_adapter(adapter)
+    puts "\n\nADAPTER NAME: #{adapter}.\n\n"
     case adapter
     when 'mysqlspatial' then 'mysql'
     when 'mysql2spatial' then 'mysql2'
@@ -19,7 +20,9 @@ module ActiveRecord::Import
   def self.require_adapter(adapter)
     require File.join(AdapterPath,"/abstract_adapter")
     begin
-      require File.join(AdapterPath,"/#{base_adapter(adapter)}_adapter")
+      adapter_path = File.join(AdapterPath,"/#{base_adapter(adapter)}_adapter")
+      puts "\n\n#{adapter_path}\n\n"
+      require adapter_path
     rescue LoadError
       # fallback
     end
